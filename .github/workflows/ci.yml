@@ -1,0 +1,22 @@
+name: AWS VPC Terraform CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  terraform-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Initialize & Validate AWS VPC Architecture
+        run: |
+          terraform init -backend=false
+          terraform validate
+          terraform plan -refresh=false
